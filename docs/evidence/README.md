@@ -2,9 +2,11 @@
 
 This evidence was captured on 29 September 2026 from the public Figmenta site (before) and the independent local recreation in this repository (after). The repository was created from public browser references because the original production repository and deployment are not available.
 
-## Video walkthrough
+## Video walkthroughs
 
-[Download the MP4 comparison](./figmenta-before-after.mp4)
+- [Public broken flows](./broken-flows.mp4)
+- [Corrected local flows](./fixed-flows.mp4)
+- [Side-by-side comparison](./figmenta-before-after.mp4)
 
 ![Animated comparison of the three corrected flows](./figmenta-before-after.gif)
 
@@ -53,4 +55,3 @@ Corrected behavior:
 - The general `Apply to Figmenta` action remains independent for open applications.
 
 No public job ID, ATS URL, or vacancy-specific external application system was exposed, so the recreation retains the observed email-based architecture.
-
