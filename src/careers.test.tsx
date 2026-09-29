@@ -54,6 +54,19 @@ describe('vacancy applications', () => {
     expect(screen.getByRole('link', { name: 'Apply for this role: UX Designer Junior' })).toHaveAttribute('href', vacancyApplicationHref(vacancies[3], 'en'))
     expect(generalApplicationHref).toBe('mailto:hr@figmenta.com')
   })
+
+  it('opens and closes the values overlay without changing the selected vacancy', () => {
+    render(<CareersPage locale="en" />)
+    const vacancy = screen.getByRole('button', { name: 'UX Designer Junior' })
+    fireEvent.click(vacancy)
+    const applyHref = screen.getByRole('link', { name: 'Apply for this role: UX Designer Junior' }).getAttribute('href')
+    fireEvent.click(screen.getByRole('button', { name: 'Align with our values' }))
+    expect(screen.getByRole('dialog', { name: 'Our values' })).toBeInTheDocument()
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(vacancy).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('link', { name: 'Apply for this role: UX Designer Junior' })).toHaveAttribute('href', applyHref)
+  })
 })
 
 describe('Careers routes', () => {

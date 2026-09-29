@@ -13,48 +13,48 @@ export const vacancies: readonly Vacancy[] = [
     slug: 'senior-art-director-latin-america',
     title: 'Senior Art Director- Latin America',
     description: {
-      en: 'Shape brand identities, digital campaigns and visual stories. This role calls for an agency portfolio, strong creative direction and the ability to guide a team.',
-      it: 'Dai forma a identità di brand, campagne digitali e racconti visivi. Cerchiamo un portfolio di agenzia, forte direzione creativa e capacità di guidare un team.',
+      en: 'We’re looking for a highly creative and strategic thinker with strong experience in branding, digital campaigns, and visual storytelling. A background in agency work and a portfolio showcasing high-level design concepts are essential. Leadership skills and the ability to guide teams are a plus.',
+      it: 'We’re looking for a highly creative and strategic thinker with strong experience in branding, digital campaigns, and visual storytelling. A background in agency work and a portfolio showcasing high-level design concepts are essential. Leadership skills and the ability to guide teams are a plus.',
     },
   },
   {
     slug: 'sales-specialist-asia-team',
     title: 'Sales Specialist – Asia team',
     description: {
-      en: 'Grow relationships and new business for our Asia team. Experience in digital marketing, lead generation and negotiation will help you succeed.',
-      it: 'Sviluppa relazioni e nuove opportunità per il team Asia. Sono utili esperienza nel marketing digitale, nella lead generation e nella negoziazione.',
+      en: 'We’re looking for a results-driven sales professional with experience in digital marketing and agency environments. Strong communication, lead generation, and negotiation skills are key. A proactive approach and a network in the industry are highly valued.',
+      it: 'We’re looking for a results-driven sales professional with experience in digital marketing and agency environments. Strong communication, lead generation, and negotiation skills are key. A proactive approach and a network in the industry are highly valued.',
     },
   },
   {
     slug: 'outbound-marketing-lead-asia-team',
     title: 'Outbound Marketing Lead- Asia team',
     description: {
-      en: 'Lead outreach and demand generation with thoughtful campaigns, automation and a strong command of CRM tools.',
-      it: 'Guida outreach e lead generation con campagne mirate, automazioni e un uso solido degli strumenti CRM.',
+      en: 'We’re looking for a marketing expert who thrives on outreach and lead generation. Experience with outbound strategies, automation tools, and CRM system is a must. A data-driven mindset and creativity in engaging prospects make the difference.',
+      it: 'We’re looking for a marketing expert who thrives on outreach and lead generation. Experience with outbound strategies, automation tools, and CRM system is a must. A data-driven mindset and creativity in engaging prospects make the difference.',
     },
   },
   {
     slug: 'ux-designer-junior',
     title: 'UX Designer Junior',
     description: {
-      en: 'Design clear digital experiences and interactive prototypes. Bring curiosity, sound UX thinking and hands-on Figma skills.',
-      it: 'Progetta esperienze digitali chiare e prototipi interattivi. Porta curiosità, sensibilità UX e padronanza di Figma.',
+      en: 'We’re looking for a junior UX designer with strong Figma prototyping skills. If you are passionate about crafting seamless user experience and love bringing ideas to life through interactive prototypes, we’d love to hear from you.',
+      it: 'We’re looking for a junior UX designer with strong Figma prototyping skills. If you are passionate about crafting seamless user experience and love bringing ideas to life through interactive prototypes, we’d love to hear from you.',
     },
   },
   {
     slug: 'client-relation-specialist',
     title: 'Client Relation Specialist',
     description: {
-      en: 'Build long-term client partnerships through clear communication, careful problem solving and a strong understanding of creative work.',
-      it: 'Costruisci relazioni durature con i clienti grazie a comunicazione chiara, problem solving e comprensione del lavoro creativo.',
+      en: 'We’re looking for a relationship builder with excellent communication and problem-solving skills. Experience in managing clients in digital marketing or creative industries is essential. A customer-first approach and the ability to foster long-term partnerships are key.',
+      it: 'We’re looking for a relationship builder with excellent communication and problem-solving skills. Experience in managing clients in digital marketing or creative industries is essential. A customer-first approach and the ability to foster long-term partnerships are key.',
     },
   },
   {
     slug: 'digital-account-manager',
     title: 'Digital Account Manager',
     description: {
-      en: 'Coordinate digital projects, teams, budgets and client communication across social, web and creative work.',
-      it: 'Coordina progetti digitali, team, budget e comunicazione con i clienti tra social, web e attività creative.',
+      en: 'We’re looking for an experienced account manager with a strong understanding of digital projects, from social media to web development. Ability to co-ordinate teams, manage budgets, and ensure seamless client communication is a must. Strategic thinking and attention to detail make the difference.',
+      it: 'We’re looking for an experienced account manager with a strong understanding of digital projects, from social media to web development. Ability to co-ordinate teams, manage budgets, and ensure seamless client communication is a must. Strategic thinking and attention to detail make the difference.',
     },
   },
 ]

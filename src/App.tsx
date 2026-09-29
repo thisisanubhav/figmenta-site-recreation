@@ -25,43 +25,57 @@ export function Navigation({ site, locale, hostname, careers = false }: SharedPr
   const t = labels[locale]
   const otherLocale: Locale = locale === 'en' ? 'it' : 'en'
   const localeHref = careers ? careersHref(otherLocale, hostname) : siteHref(site, otherLocale, hostname)
+  const referencePage = (path: string) => `https://figmenta.com/${locale}/${path}`
 
   return (
-    <header className="site-header">
+    <header className={`site-header${careers ? ' careers-header' : ''}`}>
       <a className="wordmark" href={siteHref('corporate', locale, hostname)} aria-label="Figmenta home">
-        <span>FIGMENTA</span>{site !== 'corporate' && <small>{site.toUpperCase()}</small>}
+        {careers ? <img src="https://figmenta.com/logos/figmenta.svg" alt="" /> : <><span>FIGMENTA</span>{site !== 'corporate' && <small>{site.toUpperCase()}</small>}</>}
       </a>
-      <nav className="desktop-nav" aria-label="Main navigation">
-        <a href={careers ? siteHref('corporate', locale, hostname) : '#about'}>{t.about}</a>
-        {!careers && <a href="#services">{t.services}</a>}
-        <a href={careersHref(locale, hostname)} aria-current={careers ? 'page' : undefined}>{t.careers}</a>
+      <nav className={`desktop-nav${careers ? ' careers-desktop-nav' : ''}`} aria-label="Main navigation">
+        {careers ? <div className="careers-primary-links">
+          <a href={referencePage('our-expertise')}>Expertise</a>
+          <a href={referencePage('works')}>Portfolio</a>
+          <a href={referencePage('about')}>{t.about}</a>
+          <a href={careersHref(locale, hostname)} aria-current="page">{t.careers}</a>
+          <a href={referencePage('updates')}>{locale === 'en' ? 'Updates' : 'Aggiornamenti'}</a>
+        </div> : <>
+          <a href="#about">{t.about}</a>
+          <a href="#services">{t.services}</a>
+          <a href={careersHref(locale, hostname)}>{t.careers}</a>
+        </>}
+        <div className="nav-utilities">
         <div className="nav-menu">
           <button type="button" className="nav-button" aria-expanded={open} aria-controls="division-menu" onClick={() => setOpen(!open)}>
-            <span className="grid-icon" aria-hidden="true">▦</span> {t.divisions} <span aria-hidden="true">⌄</span>
+            <span className="grid-icon" aria-hidden="true"><i /><i /><i /><i /></span> {t.divisions} <span aria-hidden="true">⌄</span>
           </button>
           {open && <div id="division-menu" className="division-menu">
             {sites.map((item) => <a key={item} href={siteHref(item, locale, hostname)} aria-label={`Visit ${divisionContent[item].name} page`}>
+              {careers && <img src={`https://figmenta.com/logos/${item === 'corporate' ? 'figmenta' : item}.svg`} alt="" />}
               <span className="menu-mark" style={{ backgroundColor: divisionContent[item].color }} />
-              <span>{divisionContent[item].name}</span>
+              <span>{careers ? divisionContent[item].tagline[locale] : divisionContent[item].name}</span>
               <span aria-hidden="true">↗</span>
             </a>)}
           </div>}
         </div>
-        <a href="#contact">{t.contact}</a>
+        <a href={careers ? referencePage('contact-us') : '#contact'}>{t.contact}</a>
         <a className="locale-link" href={localeHref} aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Italian'}`}>
           {locale.toUpperCase()} <span aria-hidden="true">⌄</span>
         </a>
+        </div>
       </nav>
       <button type="button" className="mobile-toggle" aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)}>
         {mobileOpen ? '✕' : '☰'}
       </button>
       {mobileOpen && <nav className="mobile-nav" aria-label="Mobile navigation">
-        <a href={careers ? siteHref('corporate', locale, hostname) : '#about'} onClick={() => setMobileOpen(false)}>{t.about}</a>
+        {careers && <><a href={referencePage('our-expertise')}>Expertise</a><a href={referencePage('works')}>Portfolio</a></>}
+        <a href={careers ? referencePage('about') : '#about'} onClick={() => setMobileOpen(false)}>{t.about}</a>
         {!careers && <a href="#services" onClick={() => setMobileOpen(false)}>{t.services}</a>}
         <a href={careersHref(locale, hostname)} aria-current={careers ? 'page' : undefined}>{t.careers}</a>
+        {careers && <a href={referencePage('updates')}>{locale === 'en' ? 'Updates' : 'Aggiornamenti'}</a>}
         <span className="mobile-section-label">{t.divisions}</span>
         {sites.map((item) => <a key={item} href={siteHref(item, locale, hostname)} aria-label={`Visit ${divisionContent[item].name} page`}>{divisionContent[item].name} <span aria-hidden="true">↗</span></a>)}
-        <a href="#contact" onClick={() => setMobileOpen(false)}>{t.contact}</a>
+        <a href={careers ? referencePage('contact-us') : '#contact'} onClick={() => setMobileOpen(false)}>{t.contact}</a>
         <a href={localeHref}>{otherLocale.toUpperCase()}</a>
       </nav>}
     </header>
@@ -117,7 +131,7 @@ function App() {
     if (window.location.pathname === '/') window.history.replaceState({}, '', siteHref(site, 'en', hostname))
   }, [content.name, hostname, isCareers, locale, site])
 
-  return <div className={`app site-${site}`} style={{ '--accent': content.color } as React.CSSProperties}>
+  return <div className={`app site-${site}${isCareers ? ' page-careers' : ''}`} style={{ '--accent': content.color } as React.CSSProperties}>
     <Navigation site={site} locale={locale} hostname={hostname} careers={isCareers} />
     <main>
       {isCareers ? <CareersPage locale={locale} /> : <>
@@ -155,9 +169,13 @@ function App() {
       </section>
       </>}
 
-      <ContactSection locale={locale} />
+      {!isCareers && <ContactSection locale={locale} />}
     </main>
-    <footer className="site-footer"><a className="footer-logo" href={siteHref('corporate', locale, hostname)}>FIGMENTA</a><p>{t.copyright}</p><span>© {new Date().getFullYear()} Figmenta</span></footer>
+    {isCareers ? <footer className="careers-footer">
+      <p>©Copyright Figmenta 2025</p>
+      <a href="https://www.iubenda.com/privacy-policy/69360872" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+      <a href="mailto:info@figmenta.com">info@figmenta.com</a>
+    </footer> : <footer className="site-footer"><a className="footer-logo" href={siteHref('corporate', locale, hostname)}>FIGMENTA</a><p>{t.copyright}</p><span>© {new Date().getFullYear()} Figmenta</span></footer>}
   </div>
 }
 
