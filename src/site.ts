@@ -1,8 +1,8 @@
 export type Locale = 'en' | 'it'
 export type Division = 'corporate' | 'studio' | 'live' | 'productions' | 'media'
 
-export const divisions: readonly Division[] = ['studio', 'live', 'productions', 'media']
-export const sites: readonly Division[] = ['corporate', ...divisions]
+export const divisions = ['studio', 'live', 'productions', 'media'] as const satisfies readonly Division[]
+export const sites = ['corporate', ...divisions] as const satisfies readonly Division[]
 
 export const officeContacts = [
   { city: 'Milan', country: 'Italy', email: 'info@figmenta.it' },
@@ -19,7 +19,7 @@ export const divisionContent: Record<Division, {
 }> = {
   corporate: {
     name: 'Figmenta',
-    tagline: { en: 'Figmenta means imagining things', it: 'Figmenta significa cose immaginarie' },
+    tagline: { en: 'Figmenta company website', it: 'Il sito web corporate del gruppo Figmenta' },
     description: {
       en: 'One group. Different minds. Endless possibilities. We bring strategy, creativity and technology together to make ambitious ideas real.',
       it: 'Un gruppo. Diverse prospettive. Infinite possibilità. Uniamo strategia, creatività e tecnologia per dare forma alle idee più ambiziose.',
@@ -29,7 +29,7 @@ export const divisionContent: Record<Division, {
   },
   studio: {
     name: 'Studio',
-    tagline: { en: 'Brands, products and everything in between', it: 'Brand, prodotti e tutto ciò che sta nel mezzo' },
+    tagline: { en: 'Where we design brands and digital properties', it: 'Dove progettiamo e realizziamo brand, siti web e digital properties' },
     description: {
       en: 'We help brands take shape and evolve across every touchpoint, balancing creativity and a strong strategic vision.',
       it: 'Aiutiamo i brand a prendere forma e a evolversi in ogni punto di contatto, unendo creatività e visione strategica.',
@@ -39,7 +39,7 @@ export const divisionContent: Record<Division, {
   },
   live: {
     name: 'Live',
-    tagline: { en: 'Keeping brands alive and flowing', it: 'Diamo vita alla comunicazione dei brand' },
+    tagline: { en: 'Where we keep brand communication alive and flowing', it: 'Dove gestiamo 24/7 la digital communication di un brand, dai social alle Digital PR' },
     description: {
       en: 'We keep brand communication moving every day, from social media and community to digital PR and creator partnerships.',
       it: 'Manteniamo viva la comunicazione dei brand ogni giorno, dai social e le community alle digital PR e alle collaborazioni con i creator.',
@@ -49,7 +49,7 @@ export const divisionContent: Record<Division, {
   },
   productions: {
     name: 'Productions',
-    tagline: { en: 'Visual stories that leave a mark', it: 'Produzioni che lasciano il segno' },
+    tagline: { en: 'Where we produce visual content that leaves a mark', it: 'Dove realizziamo produzioni che lasciano il segno' },
     description: {
       en: 'We turn ideas into vivid imagery, films and digital content made to be remembered.',
       it: 'Trasformiamo le idee in immagini, video e contenuti digitali capaci di farsi ricordare.',
@@ -59,7 +59,7 @@ export const divisionContent: Record<Division, {
   },
   media: {
     name: 'Media',
-    tagline: { en: 'Make every connection count', it: 'Diamo valore a ogni connessione' },
+    tagline: { en: 'Where we amplify a brand’s impact in its market', it: 'Dove amplifichiamo l’impatto di un brand con il Paid Advertising e il Growth Marketing' },
     description: {
       en: 'We amplify a brand’s impact with paid media, data and growth strategies that connect with the right people.',
       it: 'Amplifichiamo l’impatto dei brand con media, dati e strategie di crescita che raggiungono le persone giuste.',

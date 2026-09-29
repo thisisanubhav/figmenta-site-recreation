@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { careersHref } from './careers'
 import { CareersPage } from './CareersPage'
-import { divisionContent, divisions, officeContacts, pageContext, siteHref, sites, type Division, type Locale } from './site'
+import { ShowcasePage } from './ShowcasePage'
+import { showcases } from './showcase'
+import { divisionContent, officeContacts, pageContext, siteHref, sites, type Division, type Locale } from './site'
 import './styles.css'
 
 type SharedProps = { site: Division; locale: Locale; hostname: string; careers?: boolean }
@@ -22,10 +24,69 @@ const labels = {
 export function Navigation({ site, locale, hostname, careers = false }: SharedProps) {
   const [open, setOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [contactOpen, setContactOpen] = useState(false)
+  const [servicesOpen, setServicesOpen] = useState(false)
   const t = labels[locale]
   const otherLocale: Locale = locale === 'en' ? 'it' : 'en'
   const localeHref = careers ? careersHref(otherLocale, hostname) : siteHref(site, otherLocale, hostname)
   const referencePage = (path: string) => `https://figmenta.com/${locale}/${path}`
+
+  useEffect(() => {
+    if (!contactOpen) return
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setContactOpen(false)
+    }
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [contactOpen])
+
+  if (!careers) return <>
+    <header className={`site-header reference-header ${site === 'corporate' ? 'corporate-header' : 'division-header'}`}>
+      <a className="reference-logo" href={siteHref('corporate', locale, hostname)} aria-label="Figmenta home">
+        {site === 'corporate' ? <img src="https://figmenta.com/logos/figmenta.svg" alt="" /> : <img src={`https://figmenta.com/logos/${site}.svg`} alt="" />}
+      </a>
+      <nav className="reference-nav" aria-label="Main navigation">
+        {site === 'corporate' ? <div className="reference-primary">
+          <a href={referencePage('our-expertise')}>Expertise</a><a href={referencePage('works')}>Portfolio</a><a href={referencePage('about')}>{t.about}</a>
+          <a href={careersHref(locale, hostname)}>{t.careers}</a><a href={referencePage('updates')}>{locale === 'en' ? 'Updates' : 'Aggiornamenti'}</a>
+        </div> : <div className="reference-primary division-primary">
+          <div className="nav-menu"><button type="button" className="nav-button" aria-expanded={servicesOpen} onClick={() => setServicesOpen(!servicesOpen)}>
+            Figmenta {divisionContent[site].name} services <span aria-hidden="true">⌄</span>
+          </button>{servicesOpen && <div className="reference-service-menu">{showcases[site].menu.map((group) => <div key={group.title}><strong>{group.title}</strong>{group.items.map((item) => <span key={item}>{item}</span>)}</div>)}</div>}</div>
+          {(site === 'studio' || site === 'live') && <a href={referencePage('updates')}>Insights</a>}
+        </div>}
+        <div className="reference-utilities"><div className="nav-menu">
+          <button type="button" className="nav-button" aria-expanded={open} aria-controls="division-menu" onClick={() => setOpen(!open)}>
+            <span className="grid-icon" aria-hidden="true"><i /><i /><i /><i /></span> {t.divisions} <span aria-hidden="true">⌄</span>
+          </button>
+          {open && <div id="division-menu" className="reference-division-menu">{sites.map((item) => <a key={item} href={siteHref(item, locale, hostname)} aria-label={`Visit ${divisionContent[item].name} page`}>
+            <img src={`https://figmenta.com/logos/${item === 'corporate' ? 'figmenta' : item}.svg`} alt="" /><span>{divisionContent[item].tagline[locale]}</span>
+          </a>)}</div>}
+        </div>
+        <button type="button" className="nav-button" onClick={() => setContactOpen(true)}>{t.contact}</button>
+        <a className="locale-link" href={localeHref} aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Italian'}`}>{locale.toUpperCase()} <span aria-hidden="true">⌄</span></a>
+        {site !== 'corporate' && <a className="back-to-group" href={siteHref('corporate', locale, hostname)} aria-label="Back to Figmenta group">◀</a>}
+        </div>
+      </nav>
+      <button type="button" className="mobile-toggle" aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)}>{mobileOpen ? '✕' : '☰'}</button>
+      {mobileOpen && <nav className="mobile-nav" aria-label="Mobile navigation">
+        {site === 'corporate' && <><a href={referencePage('our-expertise')}>Expertise</a><a href={referencePage('works')}>Portfolio</a><a href={referencePage('about')}>{t.about}</a><a href={careersHref(locale, hostname)}>{t.careers}</a></>}
+        {site !== 'corporate' && showcases[site].menu.map((group) => <div key={group.title}><span className="mobile-section-label">{group.title}</span>{group.items.map((item) => <span className="mobile-menu-item" key={item}>{item}</span>)}</div>)}
+        <span className="mobile-section-label">{t.divisions}</span>
+        {sites.map((item) => <a key={item} href={siteHref(item, locale, hostname)} aria-label={`Visit ${divisionContent[item].name} page`}>{divisionContent[item].name} <span aria-hidden="true">↗</span></a>)}
+        <button type="button" className="mobile-contact-button" onClick={() => { setMobileOpen(false); setContactOpen(true) }}>{t.contact}</button><a href={localeHref}>{otherLocale.toUpperCase()}</a>
+      </nav>}
+    </header>
+    {contactOpen && <div className="contact-overlay" role="dialog" aria-modal="true" aria-label={locale === 'en' ? 'Contact Figmenta' : 'Contatta Figmenta'}>
+      <button className="contact-close" type="button" onClick={() => setContactOpen(false)} aria-label={locale === 'en' ? 'Close contact' : 'Chiudi contatti'}><span aria-hidden="true" /></button>
+      <ContactSection locale={locale} />
+    </div>}
+  </>
 
   return (
     <header className={`site-header${careers ? ' careers-header' : ''}`}>
@@ -83,99 +144,39 @@ export function Navigation({ site, locale, hostname, careers = false }: SharedPr
 }
 
 export function ContactSection({ locale }: { locale: Locale }) {
-  const t = labels[locale]
   return <section className="contact-section" id="contact" aria-labelledby="contact-heading">
-    <div className="contact-heading-row">
-      <div>
-        <p className="eyebrow">{t.connect}</p>
-        <h2 id="contact-heading">{t.next}</h2>
-      </div>
-      <a className="primary-contact" href="mailto:info@figmenta.com">info@figmenta.com <span aria-hidden="true">↗</span></a>
-    </div>
-    <p className="eyebrow offices-label">{t.offices}</p>
-    <div className="offices-grid">
-      {officeContacts.map((office) => <article className="office-card" key={office.city}>
-        <span className="office-index">0{officeContacts.indexOf(office) + 1}</span>
-        <h3>{office.city}</h3>
-        <p>{office.country}</p>
-        <a href={`mailto:${office.email}`} aria-label={`Email ${office.city} office at ${office.email}`}>
-          {office.email} <span aria-hidden="true">↗</span>
-        </a>
-      </article>)}
-    </div>
+    <h2 id="contact-heading">{locale === 'en' ? 'We serve clients worldwide with teams spread across multiple cities and three continents.' : 'Lavoriamo con clienti in tutto il mondo, con team in diverse città e tre continenti.'}</h2>
+    <div className="contact-quick-actions"><a href="tel:+390280897083">{locale === 'en' ? 'Call us +390280897083' : 'Chiamaci +390280897083'}</a><a href="https://wa.me/393758293603" target="_blank" rel="noopener noreferrer">{locale === 'en' ? 'Message us on WhatsApp' : 'Scrivici su WhatsApp'}</a></div>
+    <div className="contact-offices">{officeContacts.map((office) => <article className="office-card" key={office.city}>
+      <h3>{office.city}, {office.country}</h3>
+      <a href={`mailto:${office.email}`} aria-label={`Email ${office.city} office at ${office.email}`}>{office.email}</a>
+    </article>)}</div>
+    <div className="contact-project"><h3>{locale === 'en' ? 'NEW PROJECT?' : 'NUOVO PROGETTO?'}</h3><p>{locale === 'en' ? 'Tell us what you’re making.' : 'Raccontaci il tuo progetto.'}</p><a href="mailto:info@figmenta.com?subject=New%20project">{locale === 'en' ? 'Send a message' : 'Invia un messaggio'} <span aria-hidden="true">↗</span></a></div>
   </section>
-}
-
-function DivisionCard({ division, locale, hostname }: { division: Division; locale: Locale; hostname: string }) {
-  const content = divisionContent[division]
-  return <a className="division-card" href={siteHref(division, locale, hostname)} aria-label={`Visit ${content.name} page`}>
-    <span className="division-card-number">0{divisions.indexOf(division as typeof divisions[number]) + 1}</span>
-    <span className="division-card-art" style={{ '--accent': content.color } as React.CSSProperties} aria-hidden="true"><span /></span>
-    <span className="division-card-text"><strong>FIGMENTA <em>{content.name.toUpperCase()}</em></strong><span>{content.tagline[locale]}</span></span>
-    <span className="card-arrow" aria-hidden="true">↗</span>
-  </a>
 }
 
 function App() {
   const hostname = window.location.hostname
   const { site, locale } = pageContext(hostname, window.location.pathname)
   const content = divisionContent[site]
-  const t = labels[locale]
-  const isCorporate = site === 'corporate'
-  const isCareers = isCorporate && window.location.pathname.split('/').filter(Boolean)[1] === 'careers'
-  const otherDivisions = divisions.filter((division) => division !== site)
+  const isCareers = site === 'corporate' && window.location.pathname.split('/').filter(Boolean)[1] === 'careers'
 
   useEffect(() => {
     document.documentElement.lang = locale
-    document.title = isCareers ? 'Careers | Figmenta' : site === 'corporate' ? 'Figmenta | Digital Agency' : `Figmenta ${content.name}`
+    document.title = isCareers ? 'Careers | Figmenta' : site === 'corporate' ? 'Figmenta | Digital Agency for Globally Minded Brands' : `Figmenta ${content.name}: ${divisionContent[site].tagline.en}`
     if (window.location.pathname === '/') window.history.replaceState({}, '', siteHref(site, 'en', hostname))
   }, [content.name, hostname, isCareers, locale, site])
 
   return <div className={`app site-${site}${isCareers ? ' page-careers' : ''}`} style={{ '--accent': content.color } as React.CSSProperties}>
     <Navigation site={site} locale={locale} hostname={hostname} careers={isCareers} />
     <main>
-      {isCareers ? <CareersPage locale={locale} /> : <>
-      <section className={`hero ${isCorporate ? 'hero-corporate' : 'hero-division'}`}>
-        <div className="aurora aurora-one" /><div className="aurora aurora-two" /><div className="aurora aurora-three" />
-        <div className="hero-content">
-          {!isCorporate && <p className="hero-kicker">FIGMENTA / {content.name.toUpperCase()}</p>}
-          <h1>{content.tagline[locale]}</h1>
-          <p className="hero-subtitle">{isCorporate ? t.intro : content.description[locale]}</p>
-        </div>
-        <a className="scroll-cue" href="#about" aria-label="Scroll to about section"><span>↓</span></a>
-      </section>
-
-      <section className="intro-section section-shell" id="about">
-        <p className="eyebrow">{isCorporate ? 'FIGMENTA / 01' : `FIGMENTA ${content.name.toUpperCase()} / 01`}</p>
-        <div className="intro-layout">
-          <h2>{isCorporate ? t.intro : content.tagline[locale]}</h2>
-          <p>{content.description[locale]}</p>
-        </div>
-      </section>
-
-      <section className="services-section section-shell" id="services">
-        <div className="section-top"><p className="eyebrow">{t.services}</p><span>02 / 03</span></div>
-        <div className="service-list">
-          {content.services[locale].map((service, index) => <div className="service-row" key={service}>
-            <span>0{index + 1}</span><h3>{service}</h3><span aria-hidden="true">↗</span>
-          </div>)}
-        </div>
-      </section>
-
-      <section className="divisions-section section-shell" id="divisions">
-        <div className="section-top"><p className="eyebrow">{t.explore}</p><span>03 / 03</span></div>
-        <h2>{t.explore}</h2>
-        <div className="division-grid">{otherDivisions.map((division) => <DivisionCard key={division} division={division} locale={locale} hostname={hostname} />)}</div>
-      </section>
-      </>}
-
-      {!isCareers && <ContactSection locale={locale} />}
+      {isCareers ? <CareersPage locale={locale} /> : <ShowcasePage site={site} locale={locale} hostname={hostname} />}
     </main>
-    {isCareers ? <footer className="careers-footer">
+    <footer className="careers-footer">
       <p>©Copyright Figmenta 2025</p>
       <a href="https://www.iubenda.com/privacy-policy/69360872" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
       <a href="mailto:info@figmenta.com">info@figmenta.com</a>
-    </footer> : <footer className="site-footer"><a className="footer-logo" href={siteHref('corporate', locale, hostname)}>FIGMENTA</a><p>{t.copyright}</p><span>© {new Date().getFullYear()} Figmenta</span></footer>}
+    </footer>
   </div>
 }
 
