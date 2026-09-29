@@ -4,6 +4,8 @@ This is a new, independent implementation of the Figmenta corporate site, four d
 
 This repository fixes three browser-confirmed production flows: incorrect regional email destinations, dropped Italian locale context, and lost vacancy context during Careers applications. It also recreates the shared public layout so those fixes can be reviewed in context.
 
+For a complete categorized list of every implementation change, see [CHANGELOG.md](CHANGELOG.md).
+
 ## Run locally
 
 ```sh
