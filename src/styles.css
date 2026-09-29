@@ -85,5 +85,27 @@ button{color:inherit}
 .office-card a span{margin-left:4px}
 .site-footer{border-top:1px solid #25272d;background:#05070a;padding:45px max(5vw,24px);display:flex;justify-content:space-between;align-items:center;gap:25px;color:#9d9fa6;font-size:.85rem}
 .footer-logo{color:#fff;font-size:1.5rem}
+.careers-page{background:#020205;color:#f8f8fa}
+.careers-hero{padding:210px max(5vw,24px) 95px;min-height:560px;display:flex;flex-direction:column;justify-content:center}
+.careers-hero h1{font:600 clamp(2.6rem,4.15vw,5.2rem)/1.28 'DM Sans',sans-serif;letter-spacing:-.045em;max-width:1320px;margin:22px 0 0}
+.careers-openings{padding-top:20px;padding-bottom:145px}
+.careers-layout{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(270px,.85fr);gap:6vw;align-items:start;margin-top:36px}
+.vacancy-list{border-top:1px solid #74747a}
+.vacancy{border-bottom:1px solid #74747a}
+.vacancy h2{margin:0}
+.vacancy h2 button{width:100%;border:0;background:transparent;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:32px 0;font:500 clamp(1.2rem,1.55vw,1.75rem)/1.35 'DM Sans',sans-serif}
+.vacancy h2 button:hover{color:#d7b7ff}
+.vacancy h2 button span:last-child{font-size:2rem;font-weight:300;line-height:1}
+.vacancy-detail{padding:0 8vw 34px 0}
+.vacancy-detail p{color:#c8c8ce;font-size:1.05rem;line-height:1.7;margin:0 0 25px}
+.vacancy-apply{display:inline-flex;align-items:center;gap:25px;border:1px solid #eee;padding:13px 18px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem;font-weight:700;transition:background .2s,color .2s}
+.vacancy-apply:hover{background:#fff;color:#07090d}
+.general-application{padding:36px;background:#111114;border-radius:28px;position:sticky;top:24px}
+.general-application h2{font:500 clamp(1.55rem,2.2vw,2.7rem)/1.25 'DM Sans',sans-serif;letter-spacing:-.04em;margin:0 0 24px}
+.general-application p{color:#bfc0c6;line-height:1.6;margin:0 0 38px}
+.general-application a{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 18px;border-radius:6px;background:#eee;color:#111;text-transform:uppercase;font-size:.85rem;font-weight:700}
+.general-application a:hover{background:#dbb7ff}
 @media(max-width:900px){.site-header{height:80px}.desktop-nav{display:none}.mobile-toggle{display:block;background:transparent;border:0;font-size:2rem;cursor:pointer}.mobile-nav{display:flex;position:absolute;top:80px;left:0;right:0;min-height:calc(100vh - 80px);background:#07090e;flex-direction:column;padding:24px 6vw 50px;gap:0;overflow:auto}.mobile-nav a{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #ffffff20;font-size:1.25rem}.mobile-section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.2em;color:#93949a;margin:25px 0 5px}.hero{min-height:680px}.intro-layout{grid-template-columns:1fr;gap:32px}.division-grid{grid-template-columns:1fr}.division-card{min-height:340px}.contact-heading-row{flex-direction:column;align-items:start;padding-bottom:65px}.offices-grid{grid-template-columns:1fr}.office-card,.office-card:nth-child(2),.office-card:last-child{border-right:0;border-bottom:1px solid #55565b;padding:25px 0;min-height:auto}.office-card p{margin-bottom:25px}.site-footer{flex-wrap:wrap}}
 @media(max-width:600px){.wordmark{font-size:1.45rem}.wordmark small{font-size:.42rem}.hero{height:90svh;min-height:620px}.hero-content{width:90vw}.hero h1,.hero-division h1{font-size:clamp(3.1rem,12vw,5rem)}.hero-subtitle{margin-top:28px}.aurora-one{left:2%;top:32%;width:110px}.aurora-two{right:2%;width:130px}.aurora-three{right:13%;bottom:17%;width:90px}.section-shell,.contact-section{padding:80px 6vw}.intro-layout h2,.divisions-section h2,.contact-heading-row h2{font-size:clamp(2.7rem,10vw,4.5rem)}.service-row{grid-template-columns:42px 1fr 26px;min-height:90px}.service-row h3{font-size:clamp(1.55rem,6vw,2.4rem)}.division-card{min-height:315px}.division-card-art:before{height:170px;width:170px}.division-card-art span{width:155px;height:155px}.site-footer{padding:35px 6vw}.site-footer p{order:3;width:100%}}
+@media(max-width:900px){.careers-hero{min-height:480px;padding:170px 6vw 70px}.careers-layout{grid-template-columns:1fr;gap:46px}.general-application{position:static}.careers-openings{padding-top:20px}.vacancy-detail{padding-right:0}}
+@media(max-width:600px){.careers-hero{min-height:430px;padding-top:150px}.careers-hero h1{font-size:clamp(2.4rem,9vw,3.7rem)}.careers-openings{padding-top:20px}.vacancy h2 button{padding:24px 0;font-size:1.16rem}.vacancy-detail p{font-size:1rem}.general-application{padding:28px;border-radius:20px}}

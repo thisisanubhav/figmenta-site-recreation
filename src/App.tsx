@@ -1,27 +1,30 @@
 import { useEffect, useState } from 'react'
+import { careersHref } from './careers'
+import { CareersPage } from './CareersPage'
 import { divisionContent, divisions, officeContacts, pageContext, siteHref, sites, type Division, type Locale } from './site'
 import './styles.css'
 
-type SharedProps = { site: Division; locale: Locale; hostname: string }
+type SharedProps = { site: Division; locale: Locale; hostname: string; careers?: boolean }
 
 const labels = {
   en: {
-    divisions: 'Divisions', contact: 'Contact', about: 'About', explore: 'Explore our divisions', discover: 'Discover more',
+    divisions: 'Divisions', contact: 'Contact', about: 'About', careers: 'Careers', explore: 'Explore our divisions', discover: 'Discover more',
     services: 'What we do', offices: 'Our offices', connect: 'Let’s talk', next: 'Something great starts with a conversation.',
     intro: 'Different perspectives. One shared vision.', copyright: 'A creative group for what comes next.',
   },
   it: {
-    divisions: 'Offerta', contact: 'Contatti', about: 'Chi siamo', explore: 'Le nostre divisioni', discover: 'Scopri di più',
+    divisions: 'Offerta', contact: 'Contatti', about: 'Chi siamo', careers: 'Lavora con noi', explore: 'Le nostre divisioni', discover: 'Scopri di più',
     services: 'Cosa facciamo', offices: 'Le nostre sedi', connect: 'Parliamone', next: 'Ogni grande idea inizia con una conversazione.',
     intro: 'Prospettive diverse. Una visione condivisa.', copyright: 'Un gruppo creativo per ciò che verrà.',
   },
 } as const
 
-export function Navigation({ site, locale, hostname }: SharedProps) {
+export function Navigation({ site, locale, hostname, careers = false }: SharedProps) {
   const [open, setOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const t = labels[locale]
   const otherLocale: Locale = locale === 'en' ? 'it' : 'en'
+  const localeHref = careers ? careersHref(otherLocale, hostname) : siteHref(site, otherLocale, hostname)
 
   return (
     <header className="site-header">
@@ -29,8 +32,9 @@ export function Navigation({ site, locale, hostname }: SharedProps) {
         <span>FIGMENTA</span>{site !== 'corporate' && <small>{site.toUpperCase()}</small>}
       </a>
       <nav className="desktop-nav" aria-label="Main navigation">
-        <a href="#about">{t.about}</a>
-        <a href="#services">{t.services}</a>
+        <a href={careers ? siteHref('corporate', locale, hostname) : '#about'}>{t.about}</a>
+        {!careers && <a href="#services">{t.services}</a>}
+        <a href={careersHref(locale, hostname)} aria-current={careers ? 'page' : undefined}>{t.careers}</a>
         <div className="nav-menu">
           <button type="button" className="nav-button" aria-expanded={open} aria-controls="division-menu" onClick={() => setOpen(!open)}>
             <span className="grid-icon" aria-hidden="true">▦</span> {t.divisions} <span aria-hidden="true">⌄</span>
@@ -44,7 +48,7 @@ export function Navigation({ site, locale, hostname }: SharedProps) {
           </div>}
         </div>
         <a href="#contact">{t.contact}</a>
-        <a className="locale-link" href={siteHref(site, otherLocale, hostname)} aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Italian'}`}>
+        <a className="locale-link" href={localeHref} aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Italian'}`}>
           {locale.toUpperCase()} <span aria-hidden="true">⌄</span>
         </a>
       </nav>
@@ -52,12 +56,13 @@ export function Navigation({ site, locale, hostname }: SharedProps) {
         {mobileOpen ? '✕' : '☰'}
       </button>
       {mobileOpen && <nav className="mobile-nav" aria-label="Mobile navigation">
-        <a href="#about" onClick={() => setMobileOpen(false)}>{t.about}</a>
-        <a href="#services" onClick={() => setMobileOpen(false)}>{t.services}</a>
+        <a href={careers ? siteHref('corporate', locale, hostname) : '#about'} onClick={() => setMobileOpen(false)}>{t.about}</a>
+        {!careers && <a href="#services" onClick={() => setMobileOpen(false)}>{t.services}</a>}
+        <a href={careersHref(locale, hostname)} aria-current={careers ? 'page' : undefined}>{t.careers}</a>
         <span className="mobile-section-label">{t.divisions}</span>
         {sites.map((item) => <a key={item} href={siteHref(item, locale, hostname)} aria-label={`Visit ${divisionContent[item].name} page`}>{divisionContent[item].name} <span aria-hidden="true">↗</span></a>)}
         <a href="#contact" onClick={() => setMobileOpen(false)}>{t.contact}</a>
-        <a href={siteHref(site, otherLocale, hostname)}>{otherLocale.toUpperCase()}</a>
+        <a href={localeHref}>{otherLocale.toUpperCase()}</a>
       </nav>}
     </header>
   )
@@ -103,17 +108,19 @@ function App() {
   const content = divisionContent[site]
   const t = labels[locale]
   const isCorporate = site === 'corporate'
+  const isCareers = isCorporate && window.location.pathname.split('/').filter(Boolean)[1] === 'careers'
   const otherDivisions = divisions.filter((division) => division !== site)
 
   useEffect(() => {
     document.documentElement.lang = locale
-    document.title = site === 'corporate' ? 'Figmenta | Digital Agency' : `Figmenta ${content.name}`
+    document.title = isCareers ? 'Careers | Figmenta' : site === 'corporate' ? 'Figmenta | Digital Agency' : `Figmenta ${content.name}`
     if (window.location.pathname === '/') window.history.replaceState({}, '', siteHref(site, 'en', hostname))
-  }, [content.name, hostname, locale, site])
+  }, [content.name, hostname, isCareers, locale, site])
 
   return <div className={`app site-${site}`} style={{ '--accent': content.color } as React.CSSProperties}>
-    <Navigation site={site} locale={locale} hostname={hostname} />
+    <Navigation site={site} locale={locale} hostname={hostname} careers={isCareers} />
     <main>
+      {isCareers ? <CareersPage locale={locale} /> : <>
       <section className={`hero ${isCorporate ? 'hero-corporate' : 'hero-division'}`}>
         <div className="aurora aurora-one" /><div className="aurora aurora-two" /><div className="aurora aurora-three" />
         <div className="hero-content">
@@ -146,6 +153,7 @@ function App() {
         <h2>{t.explore}</h2>
         <div className="division-grid">{otherDivisions.map((division) => <DivisionCard key={division} division={division} locale={locale} hostname={hostname} />)}</div>
       </section>
+      </>}
 
       <ContactSection locale={locale} />
     </main>
