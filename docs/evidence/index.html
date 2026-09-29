@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Figmenta regression evidence</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #050505; color: #fff; font-family: Arial, sans-serif; }
+      .comparison { display: none; width: 100vw; height: 100vh; padding: 20px 28px; overflow: hidden; }
+      body[data-view="locale"] #locale,
+      body[data-view="email"] #email,
+      body[data-view="careers"] #careers { display: grid; grid-template-rows: auto 430px auto; align-content: start; gap: 14px; }
+      h1 { margin: 0; text-align: center; font-size: 34px; font-weight: 500; }
+      .panes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; min-height: 0; }
+      figure { margin: 0; position: relative; min-width: 0; overflow: hidden; border: 1px solid #333; border-radius: 14px; background: #111; }
+      figure img { width: 100%; height: 100%; display: block; object-fit: contain; }
+      figcaption { position: absolute; left: 18px; top: 18px; padding: 10px 14px; border-radius: 7px; font-size: 20px; font-weight: 700; background: rgba(156, 28, 255, .9); }
+      figure.after figcaption { background: rgba(0, 148, 71, .92); }
+      .notes { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; font-size: 21px; line-height: 1.35; }
+      .notes p { margin: 0; padding: 14px 18px; border: 1px solid #333; border-radius: 10px; }
+      .notes .fixed { color: #8df0b7; border-color: #186d3c; }
+    </style>
+  </head>
+  <body>
+    <section class="comparison" id="locale">
+      <h1>Italian locale propagation</h1>
+      <div class="panes">
+        <figure><img src="frames/locale-before-02.png" alt="Public Studio page in English" /><figcaption>BEFORE — public site</figcaption></figure>
+        <figure class="after"><img src="frames/locale-after-02.png" alt="Recreated Studio page in Italian" /><figcaption>AFTER — recreation</figcaption></figure>
+      </div>
+      <div class="notes"><p>Italian corporate links use locale-free division roots, which resolve to <strong>/en</strong>.</p><p class="fixed">Shared URL generation preserves the active locale and opens the matching division <strong>/it</strong> route.</p></div>
+    </section>
+
+    <section class="comparison" id="email">
+      <h1>Regional contact email targets</h1>
+      <div class="panes">
+        <figure><img src="frames/email-before.png" alt="Public contact offices" /><figcaption>BEFORE — public site</figcaption></figure>
+        <figure class="after"><img src="frames/email-after.png" alt="Recreated contact offices" /><figcaption>AFTER — recreation</figcaption></figure>
+      </div>
+      <div class="notes"><p>All three visible regional addresses target <strong>mailto:info@figmenta.com</strong>.</p><p class="fixed">The visible address and its <strong>mailto:</strong> destination are generated from the same office value.</p></div>
+    </section>
+
+    <section class="comparison" id="careers">
+      <h1>Vacancy application context</h1>
+      <div class="panes">
+        <figure><img src="frames/careers-before-02.png" alt="Public expanded vacancy without an apply action" /><figcaption>BEFORE — public site</figcaption></figure>
+        <figure class="after"><img src="frames/careers-after-02.png" alt="Recreated expanded vacancy with role-specific apply action" /><figcaption>AFTER — recreation</figcaption></figure>
+      </div>
+      <div class="notes"><p>An expanded vacancy has no role-specific Apply action; only the generic HR email is available.</p><p class="fixed">Every vacancy includes an Apply CTA whose email subject and body preserve title and role reference.</p></div>
+    </section>
+    <script>document.body.dataset.view = new URLSearchParams(location.search).get('view') || 'locale'</script>
+  </body>
+</html>

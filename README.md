@@ -15,6 +15,8 @@ The recreated Careers page lives at `/en/careers` and `/it/careers`. Each vacanc
 
 The landing pages use publicly accessible Figmenta logo, image, and video URLs for visual reference. Their animated fluid background is approximated in CSS. Pages outside the core landing-page scope (such as Expertise, Portfolio, About, and Updates) link to the public site. The contact overlay keeps the regional email links, phone, and WhatsApp actions; it uses an email action for new projects because this independent build has no access to the production form backend.
 
+See the [before/after regression evidence](docs/evidence/README.md) for screenshots, a comparison video, and the browser-observed destinations from the public site.
+
 ## Deploying on the Figmenta domains
 
 The same build can serve `figmenta.com` and the `studio`, `live`, `productions`, and `media` subdomains. It reads the hostname to select the site and uses `/{locale}` paths on each domain. On localhost or a preview hostname it uses `/{division}/{locale}` so all five pages can be reviewed on one origin. Connect the domains and configure DNS in the hosting account before using this as a replacement. A deployment of this repository alone does not change the current production sites.
