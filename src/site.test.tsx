@@ -12,6 +12,7 @@ describe('regional office contact links', () => {
         .toHaveAttribute('href', 'https://wa.me/393758293603')
       for (const office of officeContacts) {
         const card = screen.getByRole('heading', { name: `${office.city}, ${office.country}` }).closest('article')!
+        expect(within(card).getByRole('img', { name: `${office.city}, ${office.country}` })).toHaveAttribute('src', office.image)
         const link = within(card).getByRole('link', { name: `Email ${office.city} office at ${office.email}` })
         expect(link).toHaveAttribute('href', `mailto:${office.email}`)
         expect(link).toHaveTextContent(office.email)

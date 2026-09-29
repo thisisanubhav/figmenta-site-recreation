@@ -144,14 +144,42 @@ export function Navigation({ site, locale, hostname, careers = false }: SharedPr
 }
 
 export function ContactSection({ locale }: { locale: Locale }) {
+  const submitProject = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const form = new FormData(event.currentTarget)
+    const subject = locale === 'en' ? 'New project enquiry' : 'Richiesta nuovo progetto'
+    const body = [
+      `${locale === 'en' ? 'Name' : 'Nome'}: ${form.get('name') ?? ''}`,
+      `Email: ${form.get('email') ?? ''}`,
+      '',
+      String(form.get('project') ?? ''),
+    ].join('\n')
+    window.location.href = `mailto:info@figmenta.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
+
   return <section className="contact-section" id="contact" aria-labelledby="contact-heading">
     <h2 id="contact-heading">{locale === 'en' ? 'We serve clients worldwide with teams spread across multiple cities and three continents.' : 'Lavoriamo con clienti in tutto il mondo, con team in diverse città e tre continenti.'}</h2>
     <div className="contact-quick-actions"><a href="tel:+390280897083">{locale === 'en' ? 'Call us +390280897083' : 'Chiamaci +390280897083'}</a><a href="https://wa.me/393758293603" target="_blank" rel="noopener noreferrer">{locale === 'en' ? 'Message us on WhatsApp' : 'Scrivici su WhatsApp'}</a></div>
     <div className="contact-offices">{officeContacts.map((office) => <article className="office-card" key={office.city}>
+      <img src={office.image} alt={`${office.city}, ${office.country}`} />
       <h3>{office.city}, {office.country}</h3>
       <a href={`mailto:${office.email}`} aria-label={`Email ${office.city} office at ${office.email}`}>{office.email}</a>
     </article>)}</div>
-    <div className="contact-project"><h3>{locale === 'en' ? 'NEW PROJECT?' : 'NUOVO PROGETTO?'}</h3><p>{locale === 'en' ? 'Tell us what you’re making.' : 'Raccontaci il tuo progetto.'}</p><a href="mailto:info@figmenta.com?subject=New%20project">{locale === 'en' ? 'Send a message' : 'Invia un messaggio'} <span aria-hidden="true">↗</span></a></div>
+    <div className="contact-project">
+      <div><h3>{locale === 'en' ? 'NEW PROJECT?' : 'NUOVO PROGETTO?'}</h3><p>{locale === 'en' ? 'Tell us what you’re making.' : 'Raccontaci il tuo progetto.'}</p></div>
+      <form onSubmit={submitProject}>
+        <label>{locale === 'en' ? 'Full Name *' : 'Nome completo *'}<input name="name" required /></label>
+        <label>Email *<input name="email" type="email" required /></label>
+        <label>{locale === 'en' ? 'About project *' : 'Il progetto *'}<textarea name="project" required rows={4} /></label>
+        <button type="submit">{locale === 'en' ? 'Send' : 'Invia'} <span aria-hidden="true">↗</span></button>
+      </form>
+      <div className="contact-assurances">
+        <p>{locale === 'en' ? 'We will respond to you within 24 hours.' : 'Ti risponderemo entro 24 ore.'}</p>
+        <p>{locale === 'en' ? 'We’ll sign an NDA if requested.' : 'Se richiesto, firmeremo un NDA.'}</p>
+        <p>{locale === 'en' ? 'You will be in contact with a specialist in your industry.' : 'Sarai in contatto con uno specialista del tuo settore.'}</p>
+        <a href="mailto:info@figmenta.com">{locale === 'en' ? 'Prefer a direct conversation? Send a message' : 'Preferisci parlarne direttamente? Invia un messaggio'}</a>
+      </div>
+    </div>
   </section>
 }
 

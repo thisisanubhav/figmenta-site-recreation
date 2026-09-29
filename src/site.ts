@@ -5,9 +5,9 @@ export const divisions = ['studio', 'live', 'productions', 'media'] as const sat
 export const sites = ['corporate', ...divisions] as const satisfies readonly Division[]
 
 export const officeContacts = [
-  { city: 'Milan', country: 'Italy', email: 'info@figmenta.it' },
-  { city: 'London', country: 'UK', email: 'info@figmenta.co.uk' },
-  { city: 'San José', country: 'Costa Rica', email: 'contact@figmenta.co.uk' },
+  { city: 'Milan', country: 'Italy', email: 'info@figmenta.it', image: 'https://cdn.sanity.io/images/gm701ez7/production/5a7b122defb2b12c99bacbae0db3300bdd0d84bc-736x1104.webp' },
+  { city: 'London', country: 'UK', email: 'info@figmenta.co.uk', image: 'https://cdn.sanity.io/images/gm701ez7/production/61ad6ba5223c9c72f1b8393e5214819539dde38a-736x1308.webp' },
+  { city: 'San José', country: 'Costa Rica', email: 'contact@figmenta.co.uk', image: 'https://cdn.sanity.io/images/gm701ez7/production/82f2c213a7c57e9edca4cdd3dfcc11f2319b4130-736x1104.webp' },
 ] as const
 
 export const divisionContent: Record<Division, {
