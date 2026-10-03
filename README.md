@@ -6,6 +6,41 @@ This repository fixes three browser-confirmed production flows: incorrect region
 
 For a complete categorized list of every implementation change, see [CHANGELOG.md](CHANGELOG.md).
 
+## About Figmenta
+
+Figmenta presents itself on its public website as an independent boutique digital agency: rooted in Italy, powered in the United Kingdom, and operating globally with distributed talent. Its group proposition brings strategy, creativity, and technology together across four specialist divisions rather than treating every engagement as the same kind of agency project.
+
+| Division | Primary focus | Work represented in this recreation |
+| --- | --- | --- |
+| **Figmenta Studio** | Brands and digital experiences | Brand strategy, brand identity, product strategy, product design, product development, websites, and other digital properties |
+| **Figmenta Live** | Social and ongoing brand communication | Social-media management, community work, influencer marketing, user-generated content, digital PR, and content-led audience growth |
+| **Figmenta Productions** | Visual content and production | Still-life and lifestyle photography, video, physical production, and synthetic or AI-assisted imagery |
+| **Figmenta Media** | Paid and organic visibility | Meta, TikTok, and LinkedIn advertising; SEO and GEO; technical search work; AI visibility; and off-page digital PR |
+
+The public experience connects these divisions through a shared corporate identity while giving each one its own positioning, work examples, capabilities, and visual treatment. That group-to-division relationship is important to this project: the recreation is not only a set of separate landing pages, but a connected bilingual experience in which visitors can move between specialist teams without losing their active language.
+
+### Locations and regional contact
+
+The contact experience represents three Figmenta locations:
+
+| Location | Regional email |
+| --- | --- |
+| Milan, Italy | `info@figmenta.it` |
+| London, United Kingdom | `info@figmenta.co.uk` |
+| San José, Costa Rica | `contact@figmenta.co.uk` |
+
+These locations are presented through shared office cards and regional contact actions. Preserving the relationship between each displayed address and its real email destination is one of the central fixes documented below.
+
+### Culture and Careers
+
+The public Careers content describes a small, independent, remote-first team that values curiosity, experimentation, inclusivity, kindness, flexibility, and meaningful collaboration. The recreated Careers journey therefore includes more than a vacancy list: it preserves localized culture and benefits content, supports repeated accordion interactions, keeps general applications separate, and gives every listed role its own contextual application action.
+
+### What this repository represents
+
+This project is a browser-referenced recreation, not Figmenta's original application or an official company-maintained repository. It demonstrates the public information architecture, visual language, bilingual navigation, division structure, contact experience, and Careers funnel while implementing corrections for the confirmed broken flows.
+
+The wording and capabilities above summarize content observed on Figmenta's public pages during the recreation. They are included to explain the product and design context, not as a legal company profile or a claim of affiliation. The original CMS, internal APIs, analytics, WebGL implementation, application infrastructure, and deployment credentials were not available and are not represented as if they were.
+
 ## Run locally
 
 ```sh
